@@ -6,7 +6,6 @@ import configs
 class UART_func():
     def __init__(self):
         self.ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=1)
-        self.buffer = ''
         self.ser.write('AT+GPS=1\r'.encode())
         time.sleep(0.2)
         self.send('AT+CGATT=1\r')

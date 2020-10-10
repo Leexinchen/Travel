@@ -4,8 +4,8 @@ class UART_func():
 
     def __init__(self):
         self.ser=serial.Serial("/dev/ttyAMA0",115200,timeout=1)
-        self.buffer = ''
         time.sleep(1)
+        print(self.ser.read(self.ser.inWaiting()).decode())
         print('init ready.')
 
     def send(self,str):
