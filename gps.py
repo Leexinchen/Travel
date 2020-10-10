@@ -1,10 +1,11 @@
 import serial
 import time
 import configs
+import threading
 
-
-class UART_func():
+class GPS(threading.Thread):
     def __init__(self):
+        threading.Thread.__init__(self)
         self.ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=1)
         self.ser.write('AT+GPS=1\r'.encode())
         time.sleep(0.2)
@@ -68,5 +69,5 @@ class UART_func():
 
 
 if __name__ == '__main__':
-    UART_func_class = UART_func()
+    UART_func_class = GPS()
     UART_func_class.get_location()
