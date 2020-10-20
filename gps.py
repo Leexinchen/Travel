@@ -18,6 +18,9 @@ class GPS(threading.Thread):
         print(self.ser.read(self.ser.inWaiting()).decode())
         print('init ready.')
 
+    def run(self) -> None:
+        self.get_location()
+
     def send(self, str):
         self.ser.write(str.encode())
 
@@ -32,20 +35,8 @@ class GPS(threading.Thread):
     def update_location(self, location_N, location_E):
         url = configs.LOCATION_HOST_URL + '?latitude=' + str(location_N) + '&longitude=' + str(location_E)
         s = 'AT+HTTPGET=\"%s\"\r' % url
-        print(s)
+        # print(s)
         self.send(s)
-        #while True:
-        #    line = self.ser.readline().decode()
-            # 判断响应头
-        #    if line == '+HTTPRECV:HTTP/1.1 200 OK\r\n':
-        #        break
-        # 手动清缓存
-        #while True:
-        #    line = self.ser.readline().decode()
-            # print(line)
-        #    if line == '}':
-        #        break
-                # self.read()
 
     def get_location(self):
         self.send('AT+GPSRD=5\r')
