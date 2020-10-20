@@ -1,10 +1,19 @@
 LOCATION_HOST_URL = 'http://location.lllhy.com/location'
 
-
+#传感器
 TOF_LEFT_BUS = 1
 TOF_CENTER_BUS = 3
 TOF_RIGHT_BUS = 4
 TOF_BOTTOM_BUS = 5
 
-
+#预警
 REMIND_DISTANCE = 3
+DISTANCE_STR = [0.4,0.6,0.8,1,1.2,1.5,2,3,4]
+
+#灯珠配置
+LED_COUNT = 5
+LED_PIN = 18
+LED_BRIGHTNESS = 255
+LED_FREQ_HZ = 800000
+LED_DMA = 10
+LED_INVERT = False
