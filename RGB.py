@@ -3,12 +3,15 @@ import threading
 from rpi_ws281x import Adafruit_NeoPixel, Color
 
 import configs
+from my_print import my_print
 
 
 class RGB(threading.Thread):
 
     def __init__(self):
         threading.Thread.__init__(self)
+        self.thread_name = "RGB_LIGHT"
+        my_print(self,'init done!')
 
 
     def run(self) -> None:
@@ -25,3 +28,6 @@ class RGB(threading.Thread):
 
         strip.show()
 
+if __name__ == '__main__':
+    th = RGB()
+    th.start()

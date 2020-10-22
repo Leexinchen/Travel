@@ -8,7 +8,8 @@ TOF_BOTTOM_BUS = 5
 
 #预警
 REMIND_DISTANCE = 3
-DISTANCE_STR = [0.4,0.6,0.8,1,1.2,1.5,2,3,4]
+DISTANCE_STR = [0,0.4,0.6,0.8,1,1.2,1.5,2,3,4]
+FILE_BASE_PATH = 'voice/'
 
 #灯珠配置
 LED_COUNT = 5

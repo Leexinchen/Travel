@@ -4,25 +4,29 @@ import signal
 import VL53L1X
 import threading
 
+from my_print import my_print
+
 
 class tof_thread(threading.Thread):
     def __init__(self,thread_id,thread_name):
         threading.Thread.__init__(self)
         self.min_index = 0
-        self.min_distance = 0
+        self.min_distance = 10000
         self.thread_id = thread_id
         self.thread_name = thread_name
         # sensor init
         self.tof = VL53L1X.VL53L1X(i2c_bus=thread_id, i2c_address=0x29)
         self.tof.open()
         self.tof.start_ranging(3)
-        self.tof.set_timing(20, 27)
+        self.tof.set_timing(20, 25)
+        # time.sleep(5)
+
 
     def run(self):
-        print(self.thread_name + 'sensor start!')
+        my_print(self,self.thread_name + 'sensor start!')
         while True:
             self.min_index, self.min_distance = self.get_distance()
-            print(self.thread_name,self.min_index, self.min_distance)
+            # print(self.thread_name,self.min_index, self.min_distance)
 
     def get_distance(self):
         min_index = 0
@@ -43,7 +47,7 @@ class tof_thread(threading.Thread):
             if min_distance > row_min:
                 min_distance = row_min
                 min_index = row_list.index(row_min)
-        return min_index,min_distance
+        return min_index,min_distance/1000
 
     def __del__(self):
         self.tof.stop_ranging()

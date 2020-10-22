@@ -2,10 +2,12 @@ import serial
 import time
 import configs
 import threading
+from my_print import my_print
 
 class GPS(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
+        self.thread_name = 'GPS'
         self.ser = serial.Serial("/dev/ttyAMA0", 115200, timeout=1)
         self.ser.write('AT+GPS=1\r'.encode())
         time.sleep(0.2)
@@ -15,8 +17,11 @@ class GPS(threading.Thread):
         time.sleep(0.2)
         self.send('AT+CGACT=1,1\r')
         time.sleep(1)
-        print(self.ser.read(self.ser.inWaiting()).decode())
-        print('init ready.')
+        self.ser.read(self.ser.inWaiting()).decode()
+        # my_print(self,self.ser.read(self.ser.inWaiting()).decode())
+        # print('[GPS] - ',self.ser.read(self.ser.inWaiting()).decode())
+        my_print(self,'init ready.')
+        # print('[GPS] - init ready.')
 
     def run(self) -> None:
         self.get_location()
@@ -53,9 +58,9 @@ class GPS(threading.Thread):
             lo_mm = float(longitude[3:-1]) / 60
             new_latitude = float(latitude[0:2]) + la_mm
             new_longitude = float(longitude[0:3]) + lo_mm
-            print(new_latitude, new_longitude)
+            my_print(self,new_latitude, new_longitude)
             self.update_location(new_latitude, new_longitude)
-            print('#Update success!')
+            my_print(self,'Update success!')
             time.sleep(20)
 
 
