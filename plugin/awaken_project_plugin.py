@@ -1,14 +1,11 @@
+import os
 from robot.sdk.AbstractPlugin import AbstractPlugin
-import sys
-sys.path.append('/home/pi/Travel-1')
-import start_project
-
 
 class Plugin(AbstractPlugin):
 
     def handle(self, text, parsed):
         self.say('已经在启动啦!', cache=True)
-        start_project.start()
+        os.system('sudo python3 ~/Travel-1/start_project.py')
         self.say('启动完成，放心地出门吧!', cache=True)
 
     def isValid(self, text, parsed):
