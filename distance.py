@@ -18,17 +18,18 @@ class tof_thread(threading.Thread):
         self.tof = VL53L1X.VL53L1X(i2c_bus=thread_id, i2c_address=0x29)
         self.tof.open()
         self.tof.start_ranging(3)
-        self.tof.set_timing(20, 25)
+        self.tof.set_timing(30, 50)
         # time.sleep(5)
 
 
     def run(self):
-        my_print(self,self.thread_name + 'sensor start!')
+        my_print(self,self.thread_name + ' sensor start!')
         while True:
-            self.min_index, self.min_distance = self.get_distance()
-            # print(self.thread_name,self.min_index, self.min_distance)
+            self.min_index, self.min_distance = self.get_matrix_distance()
+            # print(self.min_distance)
+            # my_print(self,self.min_index, self.min_distance)
 
-    def get_distance(self):
+    def get_matrix_distance(self):
         min_index = 0
         min_distance = 10000
         for i in range(0, 4):
@@ -49,14 +50,18 @@ class tof_thread(threading.Thread):
                 min_index = row_list.index(row_min)
         return min_index,min_distance/1000
 
+    def get_distance(self):
+        distance_in_mm = self.tof.get_distance()
+        return distance_in_mm/1000
+
     def __del__(self):
         self.tof.stop_ranging()
 
 if __name__ == '__main__':
-    thread3 = tof_thread(4, 'sensor_3')
-    thread2 = tof_thread(3, 'sensor_2')
+    # thread3 = tof_thread(4, 'sensor_3')
+    # thread2 = tof_thread(3, 'sensor_2')
     thread1 = tof_thread(1, 'sensor_1')
 
     thread1.start()
-    thread2.start()
-    thread3.start()
+    # thread2.start()
+    # thread3.start()

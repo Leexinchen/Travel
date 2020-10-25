@@ -20,13 +20,13 @@ class remind_thread(threading.Thread):
             self.center_tof_thread,
             self.right_tof_thread
             ]
-        # self.bottom_tof_thread = tof_thread(configs.TOF_BOTTOM_BUS, 'bottom')
+        self.bottom_tof_thread = tof_thread(configs.TOF_BOTTOM_BUS, 'BOTTOM_SENSOR')
 
     def run(self) -> None:
         self.left_tof_thread.start()
         self.center_tof_thread.start()
         self.right_tof_thread.start()
-        # self.bottom_tof_thread.start()
+        self.bottom_tof_thread.start()
         time.sleep(3)
         while True:
             left_dis = self.left_tof_thread.min_distance
@@ -35,10 +35,22 @@ class remind_thread(threading.Thread):
             my_print(self,left_dis,center_dis,right_dis)
             my_print(self,'--------------------------')
             if left_dis <configs.REMIND_DISTANCE or center_dis <configs.REMIND_DISTANCE or right_dis <configs.REMIND_DISTANCE:
-                self.remind()
-                time.sleep(1)
+                # 路面与障碍物2选1
+                if self.bottom_remind() is not True:
+                    self.remind()
+            time.sleep(1)
             # time.sleep(0.5)
 
+    def bottom_remind(self):
+        bottom_distance = self.bottom_tof_thread.get_distance()
+        if bottom_distance < configs.BOTTOM_REMIND_DISTANCE:
+            my_print(self,'bottom '+ str(bottom_distance))
+            distance = self.get_min_dis(bottom_distance)
+            # 播放提示
+            play_file = configs.FILE_BASE_PATH+'正前方90度路面'+str(distance)+'米有障碍物.wav'
+            os.system('play '+play_file)
+            return True
+        return False
 
     def remind(self):
         distance_list = [
@@ -49,7 +61,7 @@ class remind_thread(threading.Thread):
         min_distance = min(distance_list)
         min_direction = distance_list.index(min_distance)
         play_file = self.calculate_direction(min_direction,self.tof_list[min_direction].min_index,min_distance)
-        # os.system('play '+play_file)
+        os.system('play '+play_file)
 
     def get_min_dis(self,distance):
         #得到文件名最低的语音

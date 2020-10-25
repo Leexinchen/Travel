@@ -1,13 +1,18 @@
 LOCATION_HOST_URL = 'http://location.lllhy.com/location'
 
-#传感器
+#传感器  All PIN above this is board PIN
 TOF_LEFT_BUS = 1
-TOF_CENTER_BUS = 3
+#TOF Left bus PIN SDA-3,SCL-5
+TOF_CENTER_BUS = 5
+#TOF Center bus PIN SDA-11 SCL-13
 TOF_RIGHT_BUS = 4
-TOF_BOTTOM_BUS = 5
+#TOF Right bus PIN SDA-15 SCL-16
+TOF_BOTTOM_BUS = 3
+#TOF Bottom bus PIN SDA-24 SCL-25
 
 #预警
 REMIND_DISTANCE = 3
+BOTTOM_REMIND_DISTANCE = 1.2
 DISTANCE_STR = [0,0.4,0.6,0.8,1,1.2,1.5,2,3,4]
 FILE_BASE_PATH = 'voice/'
 
