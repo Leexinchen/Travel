@@ -11,9 +11,6 @@ def start():
     # 启动提示预警
     remind_thread = remind.remind_thread()
     remind_thread.start()
-    # 启动RGB灯带
-    RGB_thread = RGB()
-    RGB_thread.start()
 
 
 if __name__ == '__main__':
