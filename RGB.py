@@ -41,7 +41,7 @@ class RGB(threading.Thread):
             time.sleep(wait_ms/1000.0)
 
     # 呼吸闪烁
-    def  breath_chase(self,wait_ms = 10):
+    def  breath_chase(self,wait_ms = 3):
         for i in range(0,255,3):
             now_color = Color(i,0,0)
             # 所有灯珠设置一遍
